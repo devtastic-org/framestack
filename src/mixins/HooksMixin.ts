@@ -1,19 +1,27 @@
-import { Frame } from "../frame";
+import Frame from "../Frame";
 
-export class HooksMixin {
+export default class HooksMixin {
+  private frameId: string | null = null;
   // Cache listener function for later removal
   private hookEventListenerFn?: (e: MouseEvent) => void;
 
   // Only for typing
   protected frames?: Record<string, Frame>;
 
-  public enableHooks() {
+  public enableHooks(frameId: string) {
+    // Clear any existing listeners
+    this.disableHooks();
+
+    this.frameId = frameId;
+
     this.hookEventListenerFn = this.hookEventListener.bind(this);
     document.addEventListener("click", this.hookEventListenerFn);
+
     return this;
   }
 
   public disableHooks() {
+    this.frameId = null;
     if (this.hookEventListenerFn) {
       document.removeEventListener("click", this.hookEventListenerFn);
     }
@@ -21,15 +29,11 @@ export class HooksMixin {
   }
 
   private hookToggle() {
-    for (const f of Object.values(this.frames!)) {
-      f.toggle();
-    }
+    this.frames![this.frameId!]?.toggle();
   }
 
   private hookResize(size: string) {
-    for (const f of Object.values(this.frames!)) {
-      f.resize(size);
-    }
+    this.frames![this.frameId!]?.resize(size);
   }
 
   private hookEventListener(e: MouseEvent) {

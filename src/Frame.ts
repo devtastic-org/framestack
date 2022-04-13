@@ -1,8 +1,9 @@
-import { FrameConfig, NonNullFrameConfig } from "./types";
+import { FrameConfig, FrameMessage, NonNullFrameConfig } from "./types";
 import { DEFAULT_FRAME_CONFIG } from "./constants";
-import { FrameStack } from "./framestack";
+import FrameStack from "./FrameStack";
+import {YOUARE} from "./actions";
 
-export class Frame {
+export default class Frame {
   public id: string;
   public visible: boolean = false;
   private config: NonNullFrameConfig;
@@ -100,5 +101,9 @@ export class Frame {
     this.frame!.style.width = `${width}px`;
 
     return this;
+  }
+
+  public sendMessage(message: FrameMessage) {
+    this.frame!.contentWindow?.postMessage(message, { targetOrigin: "*" });
   }
 }

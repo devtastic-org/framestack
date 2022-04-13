@@ -1,4 +1,3 @@
 import "./styles.css";
-import { FrameStack } from "./framestack";
-
-export { FrameStack };
+export { default as FrameStack } from "./FrameStack";
+export { default as FrameManager } from "./FrameManager";
