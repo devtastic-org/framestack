@@ -2,4 +2,11 @@ import { FrameStack } from "../src";
 
 const fs = new FrameStack();
 
-fs.addFrame({ url: "https://www.duic.nl", size: "small" });
+fs.enableHooks();
+
+const f = fs.addFrame({
+  url: "http://localhost:3000/frame.html",
+  size: "small",
+});
+
+setTimeout(() => f.show(), 1000);

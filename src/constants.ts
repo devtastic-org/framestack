@@ -4,11 +4,11 @@ const DEFAULT_FRAME_SIZES = {
   large: { width: 1200, height: 800 },
 };
 
-export const DEFAULT_FORMSTACK_CONFIG = {
+export const DEFAULT_FRAMESTACK_CONFIG = {
   sizes: DEFAULT_FRAME_SIZES,
 };
 
-export const DEFAULT_FORM_CONFIG = {
+export const DEFAULT_FRAME_CONFIG = {
   background: "white",
   shadow: true,
   position: {

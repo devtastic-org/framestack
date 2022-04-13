@@ -1,22 +1,24 @@
+import { nanoid } from "nanoid";
 import {
   FrameConfig,
   FrameStackConfig,
   NonNullFrameStackConfig,
 } from "./types";
-import { DEFAULT_FORMSTACK_CONFIG } from "./constants";
+import { DEFAULT_FRAMESTACK_CONFIG } from "./constants";
 import { Frame } from "./frame";
-import { nanoid } from "nanoid";
+import { HooksMixin } from "./mixins/hooks";
 
-export class FrameStack {
-  private frames: Record<string, Frame> = {};
+export class FrameStack extends HooksMixin {
+  protected frames: Record<string, Frame> = {};
   public readonly config: NonNullFrameStackConfig;
 
   constructor(config: FrameStackConfig = {}) {
-    this.config = { ...DEFAULT_FORMSTACK_CONFIG, ...config };
+    super();
+    this.config = { ...DEFAULT_FRAMESTACK_CONFIG, ...config };
   }
 
   public addFrame(config: FrameConfig): Frame {
-    const id = nanoid();
+    const id = config.id || nanoid();
     const f = new Frame(id, config, this);
 
     this.frames[id] = f;

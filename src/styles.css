@@ -3,5 +3,41 @@
   z-index: 1;
   border: 0;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 20px rgba(15, 23, 42, 0.18);
+  display: none;
+  transition-property: height, width;
+  transition-timing-function: ease-in-out;
+  transition-duration: 600ms;
+}
+
+.fs_frame_show {
+  animation: fs_frame_entry_animation 600ms ease-in-out;
+  display: block;
+}
+
+.fs_frame_hide {
+  animation: fs_frame_exit_animation 600ms ease-in-out;
+  display: block;
+}
+
+@keyframes fs_frame_entry_animation {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fs_frame_exit_animation {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
 }

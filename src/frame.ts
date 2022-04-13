@@ -1,9 +1,10 @@
 import { FrameConfig, NonNullFrameConfig } from "./types";
-import { DEFAULT_FORM_CONFIG } from "./constants";
+import { DEFAULT_FRAME_CONFIG } from "./constants";
 import { FrameStack } from "./framestack";
 
 export class Frame {
   public id: string;
+  public visible: boolean = false;
   private config: NonNullFrameConfig;
   private fs: FrameStack;
   private frame?: HTMLIFrameElement;
@@ -11,7 +12,7 @@ export class Frame {
   constructor(id: string, config: FrameConfig, fs: FrameStack) {
     this.id = id;
     this.fs = fs;
-    this.config = { ...DEFAULT_FORM_CONFIG, ...config };
+    this.config = { ...DEFAULT_FRAME_CONFIG, ...config };
     this.createElement();
     this.attachElement();
   }
@@ -26,6 +27,7 @@ export class Frame {
     const { width, height } = this.getSize();
     const { x, y } = this.getOffset();
 
+    // @ts-ignore
     this.frame.style = `
       max-width: calc(100% - ${2 * x}px); 
       max-height: calc(100% - ${2 * y}px); 
@@ -61,5 +63,42 @@ export class Frame {
         (typeof top === "number" ? top : 0) +
         (typeof bottom === "number" ? bottom : 0),
     };
+  }
+
+  public show(): Frame {
+    this.frame!.classList.add("fs_frame_show");
+    this.visible = true;
+
+    return this;
+  }
+
+  public hide(): Frame {
+    this.frame!.classList.remove("fs_frame_show");
+    this.frame!.classList.add("fs_frame_hide");
+
+    this.visible = false;
+
+    setTimeout(() => {
+      this.frame!.classList.remove("fs_frame_hide");
+    }, 600);
+
+    return this;
+  }
+
+  public toggle(): Frame {
+    this.visible ? this.hide() : this.show();
+
+    return this;
+  }
+
+  public resize(size: string): Frame {
+    this.config.size = size;
+
+    const { width, height } = this.getSize();
+
+    this.frame!.style.height = `${height}px`;
+    this.frame!.style.width = `${width}px`;
+
+    return this;
   }
 }

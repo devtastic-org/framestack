@@ -18,4 +18,4 @@ export interface NonNullFrameConfig {
 }
 
 export type FrameConfig = Partial<Omit<NonNullFrameConfig, "url" | "size">> &
-  Pick<NonNullFrameConfig, "url" | "size">;
+  Pick<NonNullFrameConfig, "url" | "size"> & { id?: string };
